@@ -236,6 +236,7 @@ textarea{resize:vertical;min-height:88px}
     <li><a href="#" onclick="showPage('shop')">판매 영상</a></li>
     <li><a href="#" onclick="showPage('bg')">배경</a></li>
     <li><a href="#" onclick="showPage('mot')">모션</a></li>
+    <li><a href="#" onclick="showPage('order')">주문제작</a></li>
     <li><a href="#" onclick="showPage('dl')">다운로드</a></li>
     <li><a href="#" onclick="showPage('home');setTimeout(()=>document.getElementById('about').scrollIntoView({behavior:'smooth'}),100)">소개</a></li>
     <li><a href="#" onclick="showPage('home');setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),100)">연락</a></li>
@@ -254,6 +255,7 @@ textarea{resize:vertical;min-height:88px}
   <a href="#" onclick="showPage('shop');document.getElementById('mobMenu').classList.remove('open')">판매 영상</a>
   <a href="#" onclick="showPage('bg');document.getElementById('mobMenu').classList.remove('open')">배경</a>
   <a href="#" onclick="showPage('mot');document.getElementById('mobMenu').classList.remove('open')">모션</a>
+  <a href="#" onclick="showPage('order');document.getElementById('mobMenu').classList.remove('open')">주문제작</a>
   <a href="#" onclick="showPage('dl');document.getElementById('mobMenu').classList.remove('open')">다운로드</a>
   <a href="#" onclick="showPage('home');document.getElementById('mobMenu').classList.remove('open');setTimeout(()=>document.getElementById('about').scrollIntoView({behavior:'smooth'}),100)">소개</a>
   <a href="#" onclick="showPage('home');document.getElementById('mobMenu').classList.remove('open');setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),100)">연락</a>
@@ -411,6 +413,33 @@ textarea{resize:vertical;min-height:88px}
   <p style="font-size:13px;color:var(--pink);font-weight:600;margin-bottom:32px">💬 모션리스트에 없는 춤(댄스숏츠)을 신청하셔도 별도의 모션비용은 받지 않고 있습니다.</p>
 
   <div id="motList"></div>
+</div>
+
+<!-- 주문제작 페이지 -->
+<div class="page-view" id="pageOrder">
+  <button class="page-back" onclick="showPage('home')">← 홈으로</button>
+  <p class="sec-label">Custom Order</p>
+  <h2 class="sec-title" style="margin-bottom:12px">주문제작</h2>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:28px">원하시는 모션/배경으로 영상을 제작해 드려요. 아래 신청양식을 복사해서 디스코드로 보내주세요.</p>
+
+  <div style="background:var(--pink-pale);border:1.5px solid var(--border2);border-radius:16px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;max-width:520px">
+    <span style="font-size:14px;font-weight:600;color:var(--text)">주문제작 가격</span>
+    <span style="font-size:26px;font-weight:800;color:var(--pink);font-family:'Playfair Display',serif">50,000원</span>
+  </div>
+
+  <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:24px 26px;max-width:520px">
+    <p style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:16px">📋 신청양식</p>
+    <ol style="font-size:13px;color:var(--text);line-height:1.6;padding-left:20px;display:flex;flex-direction:column;gap:14px">
+      <li>원하시는 모션을 적어주세요.<br><span style="color:var(--muted);font-size:12px">(모션란에 없는 모션도 괜찮습니다)</span></li>
+      <li>원하시는 배경을 적어주세요.<br><span style="color:var(--muted);font-size:12px">(배경란에서 보시고 고르시면 됩니다. 잘 모르겠으시면 오마카세라고 적어주세요.)</span></li>
+      <li>포트폴리오 비공개<br><span style="color:var(--pink);font-weight:600;font-size:12px">(원하시는 경우 20,000원 추가됩니다.)</span></li>
+      <li>전용의상뚜따<br><span style="color:var(--muted);font-size:12px">(원하시는 의상이나 헤어가 있으시면 뚜따 후 영상 제작해드립니다. 영상용 뚜따일뿐 vrm, vsf 등 파일은 전달해드리지 않습니다.)</span></li>
+      <li>원하시는 레퍼런스가 있으시면 링크를 보내주세요.</li>
+      <li>요청사항<br><span style="color:var(--muted);font-size:12px">(기타 요청사항이나 설명을 자유롭게 적어주세요)</span></li>
+    </ol>
+    <button class="submit-btn" onclick="copyOrderForm()" style="margin-top:22px;width:100%">📋 신청 양식복사하기</button>
+    <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:10px">복사한 양식을 디스코드(<b>usagi_0423</b>)에 붙여넣어 빈칸을 채워 보내주세요.</p>
+  </div>
 </div>
 
 <!-- 배경 라이트박스 -->
@@ -672,24 +701,6 @@ textarea{resize:vertical;min-height:88px}
         <p style="font-size:12px;color:var(--muted);margin-bottom:18px">보유 모션(챌린지) 목록을 관리하세요. 판매 영상 제작 내역 태그는 목록에서 언제든 켜고 끌 수 있어요.</p>
 
         <div class="fg"><label>노래(모션 또는 챌린지명) 제목 *</label><input type="text" id="motTitle" placeholder="예: 캐치캐치"></div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <div class="fg" style="margin:0">
-            <label>추가비용 여부</label>
-            <select id="motExtraCost" style="width:100%;background:var(--bg);border:1.5px solid var(--border);color:var(--text);padding:11px 13px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;border-radius:10px">
-              <option value="0">없음</option>
-              <option value="1">있음</option>
-            </select>
-          </div>
-          <div class="fg" style="margin:0">
-            <label>남은 제작 횟수</label>
-            <input type="number" id="motRemaining" placeholder="예: 3" min="0">
-            <label style="display:flex;align-items:center;gap:6px;margin-top:8px;text-transform:none;font-size:12px;color:var(--text);cursor:pointer">
-              <input type="checkbox" id="motUnlimited" onchange="toggleMotUnlimited()" style="width:14px;height:14px;accent-color:var(--pink);cursor:pointer">
-              ∞ 무제한
-            </label>
-          </div>
-        </div>
 
         <div style="display:flex;align-items:center;justify-content:space-between;background:var(--pink-pale);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;margin-top:16px">
           <div>
@@ -1645,232 +1656,174 @@ let motItems = [
   {
     "id": 1787253403679,
     "title": "두번째 지구 - 하데스",
-    "extraCost": false,
-    "remaining": 2,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253421675,
     "title": "Dash - 플레이브",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253432706,
     "title": "かくれんぼ (Hide and Seek) - 플레이브",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253440678,
     "title": "왜요? -플레이브",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253451563,
     "title": "Golden",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253455154,
     "title": "SODA POP",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253462031,
     "title": "Your idol",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253470177,
     "title": "멸종위기사랑",
-    "extraCost": false,
-    "remaining": 2,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253481442,
     "title": "스타게이저 - 이세돌",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253489288,
     "title": "엘리베이트 -이세돌",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253496013,
     "title": "Mantra",
-    "extraCost": false,
-    "remaining": 4,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253500956,
     "title": "BANG BANG",
-    "extraCost": false,
-    "remaining": 4,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253505442,
     "title": "Catch Catch",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253510025,
     "title": "파이파이 가면",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253514707,
     "title": "スキスキDieスキ超Ayeシテル",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253520257,
     "title": "A Horny Money World",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253530493,
     "title": "IRIS OUT",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253537042,
     "title": "비비디바",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253540881,
     "title": "LEMON LEMON COOKIE",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253545357,
     "title": "目撃_テト31世",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253549626,
     "title": "키츠키츠네",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253554585,
     "title": "마음 예보",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253558761,
     "title": "우이밭의 파수꾼",
-    "extraCost": false,
-    "remaining": "unlimited",
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253564666,
     "title": "ZOO",
-    "extraCost": false,
-    "remaining": 4,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253571508,
     "title": "NO BATIDÃO",
-    "extraCost": false,
-    "remaining": 4,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787253577338,
     "title": "Shape Of You",
-    "extraCost": false,
-    "remaining": 4,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787334617959,
     "title": "Mr.chu",
-    "extraCost": false,
-    "remaining": 4,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1787334652496,
     "title": "HEART CRUSH",
-    "extraCost": false,
-    "remaining": 3,
     "hasSale": false,
     "linkedShopId": null
   },
   {
     "id": 1788627175118,
     "title": "Pretty Girl",
-    "extraCost": false,
-    "remaining": 4,
     "hasSale": false,
     "linkedShopId": null
   }
@@ -2015,13 +1968,52 @@ function shopCardHtml(v, i) {
   </div>`;
 }
 
-function copyBuyContact(text) {
-  const done = () => toast(`복사됐어요: ${text} (디스코드에 붙여넣어 문의해주세요)`);
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(text).then(done).catch(done);
+// 클립보드 복사 공용 함수 — Clipboard API 실패 시 execCommand로 한 번 더 시도하고,
+// 그래도 안 되면(앱 내 브라우저 등) 직접 선택해서 복사할 수 있도록 창을 띄워줌
+function copyTextSmart(text, onSuccess) {
+  const fallback = () => {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.top = '-9999px';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, text.length);
+      const ok = document.execCommand && document.execCommand('copy');
+      document.body.removeChild(ta);
+      if (ok) { onSuccess(); return; }
+    } catch (e) { /* ignore, fall through below */ }
+    // 자동 복사가 끝내 안 되면 직접 선택해서 복사할 수 있게 띄워줌
+    window.prompt('자동 복사가 안 돼서 직접 복사해주세요 (전체 선택 후 Ctrl+C / 길게 눌러 복사):', text);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(fallback);
   } else {
-    done();
+    fallback();
   }
+}
+
+function copyBuyContact(text) {
+  copyTextSmart(text, () => toast(`복사됐어요: ${text} (디스코드에 붙여넣어 문의해주세요)`));
+}
+
+// 주문제작 신청 양식 복사
+function copyOrderForm() {
+  const text =
+`[주문제작 신청서]
+
+1. 원하시는 모션 :
+2. 원하시는 배경 :
+3. 포트폴리오 비공개 (원하시는 경우 20,000원 추가) :
+4. 전용의상뚜따 (원하시는 의상/헤어가 있다면 작성) :
+5. 레퍼런스 링크 :
+6. 요청사항 : `;
+  copyTextSmart(text, () => toast('신청 양식이 복사됐어요! 디스코드(usagi_0423)에 붙여넣어 주세요 📋'));
 }
 
 // 모션 항목에서 연결된 특정 판매 영상으로 이동 + 강조
@@ -2046,6 +2038,7 @@ function showPage(page) {
   document.getElementById('pageShop').classList.remove('active');
   document.getElementById('pageBg').classList.remove('active');
   document.getElementById('pageMot').classList.remove('active');
+  document.getElementById('pageOrder').classList.remove('active');
   document.getElementById('pageDl').classList.remove('active');
   if (page === 'portfolio') {
     renderPortfolioFull();
@@ -2065,6 +2058,10 @@ function showPage(page) {
   } else if (page === 'mot') {
     renderMotList();
     document.getElementById('pageMot').classList.add('active');
+    document.querySelectorAll(HOME_ELS).forEach(el => el.style.display = 'none');
+    window.scrollTo(0, 0);
+  } else if (page === 'order') {
+    document.getElementById('pageOrder').classList.add('active');
     document.querySelectorAll(HOME_ELS).forEach(el => el.style.display = 'none');
     window.scrollTo(0, 0);
   } else if (page === 'dl') {
@@ -2382,19 +2379,6 @@ function prefillBuyContact() {
   if (el && !el.value.trim() && CFG.email) el.value = CFG.email;
 }
 
-function motRemainingLabel(v) {
-  if (v.remaining === 'unlimited') return '무제한';
-  if (v.remaining === null || v.remaining === undefined) return '-';
-  return v.remaining + '회';
-}
-
-function toggleMotUnlimited() {
-  const checked = document.getElementById('motUnlimited').checked;
-  const input = document.getElementById('motRemaining');
-  input.disabled = checked;
-  if (checked) input.value = '';
-}
-
 function toggleMotFormSale() {
   motFormSale = !motFormSale;
   const btn = document.getElementById('motHasSaleToggleBtn');
@@ -2420,9 +2404,6 @@ function renderMotShopOptions(selectedId) {
 
 function addMotItem() {
   const title     = document.getElementById('motTitle').value.trim();
-  const extraCost = document.getElementById('motExtraCost').value === '1';
-  const unlimited = document.getElementById('motUnlimited').checked;
-  const remaining = document.getElementById('motRemaining').value.trim();
   if (!title) { toast('모션 제목을 입력해주세요'); return; }
 
   const linkedRaw = document.getElementById('motLinkedShop').value;
@@ -2432,8 +2413,6 @@ function addMotItem() {
   const item = {
     id: isEdit ? motItems[motEditIdx].id : Date.now(),
     title,
-    extraCost,
-    remaining: unlimited ? 'unlimited' : (remaining === '' ? null : Number(remaining)),
     hasSale: motFormSale,
     linkedShopId
   };
@@ -2446,10 +2425,6 @@ function addMotItem() {
 
 function resetMotForm() {
   document.getElementById('motTitle').value = '';
-  document.getElementById('motExtraCost').value = '0';
-  document.getElementById('motRemaining').value = '';
-  document.getElementById('motRemaining').disabled = false;
-  document.getElementById('motUnlimited').checked = false;
   motFormSale = false;
   const btn = document.getElementById('motHasSaleToggleBtn');
   btn.textContent = 'OFF';
@@ -2467,11 +2442,6 @@ function editMotItem(idx) {
   if (!v) return;
   motEditIdx = idx;
   document.getElementById('motTitle').value = v.title || '';
-  document.getElementById('motExtraCost').value = v.extraCost ? '1' : '0';
-  const isUnlimited = v.remaining === 'unlimited';
-  document.getElementById('motUnlimited').checked = isUnlimited;
-  document.getElementById('motRemaining').disabled = isUnlimited;
-  document.getElementById('motRemaining').value = isUnlimited ? '' : ((v.remaining === null || v.remaining === undefined) ? '' : v.remaining);
   motFormSale = !!v.hasSale;
   const btn = document.getElementById('motHasSaleToggleBtn');
   btn.textContent = motFormSale ? 'ON' : 'OFF';
@@ -2518,7 +2488,7 @@ function renderMotAdminList() {
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap">
       <div style="min-width:0;flex:1">
         <p style="font-size:13px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(v.title)}</p>
-        <p style="font-size:10px;color:var(--muted)">${v.extraCost ? '추가비용 있음' : '추가비용 없음'} · 남은 제작 ${motRemainingLabel(v)}${linked ? ` · 🔗 ${esc(linked.title)}` : (v.hasSale ? ' · 🔗 미연결(전체 페이지로 이동)' : '')}</p>
+        <p style="font-size:10px;color:var(--muted)">${linked ? `🔗 ${esc(linked.title)}` : (v.hasSale ? '🔗 미연결(전체 페이지로 이동)' : '연결된 판매 영상 없음')}</p>
       </div>
       <button onclick="toggleMotSaleTag(${i})" style="flex-shrink:0;padding:4px 10px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid ${v.hasSale ? 'var(--pink)' : 'var(--border)'};background:${v.hasSale ? 'var(--pink)' : 'var(--surface2)'};color:${v.hasSale ? '#fff' : 'var(--muted)'}">🏷️ ${v.hasSale ? 'ON' : 'OFF'}</button>
       <button onclick="editMotItem(${i})" style="flex-shrink:0;background:var(--pink-pale);border:1px solid var(--border2);color:var(--pink);padding:4px 12px;border-radius:8px;font-size:11px;cursor:pointer">수정</button>
@@ -2540,8 +2510,6 @@ function renderMotList() {
     return `
     <tr ${clickable ? `class="mot-row-click" onclick="${clickAction}"` : ''}>
       <td style="font-family:'Playfair Display',serif;font-weight:700">${esc(v.title)}</td>
-      <td style="text-align:center;color:${v.extraCost ? 'var(--pink)' : 'var(--muted)'};font-weight:${v.extraCost ? '700' : '400'}">${v.extraCost ? '💰 있음' : '없음'}</td>
-      <td style="text-align:center;font-weight:600">${motRemainingLabel(v)}</td>
       <td style="text-align:center">${clickable ? `<span style="font-size:11px;font-weight:700;color:#fff;background:var(--pink);padding:4px 12px;border-radius:12px;white-space:nowrap">🏷️ 보러가기 →</span>` : `<span style="color:var(--muted);font-size:12px">-</span>`}</td>
       <td style="text-align:center;width:1%"><button class="mot-del-btn" onclick="event.stopPropagation();delMotItem(${i})">✕</button></td>
     </tr>`;
@@ -2553,8 +2521,6 @@ function renderMotList() {
         <thead>
           <tr>
             <th>모션 / 챌린지명</th>
-            <th style="text-align:center">추가비용</th>
-            <th style="text-align:center">남은 제작</th>
             <th style="text-align:center">판매 영상</th>
             <th></th>
           </tr>
